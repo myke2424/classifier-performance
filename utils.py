@@ -2,6 +2,8 @@ import time
 
 
 def time_it(description=""):
+    """Used to record the computational time of the classifiers"""
+
     def decorator(func):
         def inner(*args, **kwargs):
             start = time.time()

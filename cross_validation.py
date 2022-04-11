@@ -7,9 +7,7 @@ from sklearn.model_selection import KFold
 
 
 def tune_number_of_decision_stumps(data: list, folds: int = 3, start: int = 1, stop: int = 50, step: int = 1) -> int:
-    """
-    Using k-fold cross validation, find the number of decision stumps that produce the lowest error rate
-    """
+    """Using k-fold cross validation, find the number of decision stumps that produce the lowest error rate"""
 
     k_fold = KFold(n_splits=folds, shuffle=True)
 
@@ -37,9 +35,7 @@ def tune_number_of_decision_stumps(data: list, folds: int = 3, start: int = 1, s
 
 
 def tune_k_neighbours(data: list, folds: int = 3, start: int = 3, stop: int = 100, step: int = 3) -> int:
-    """
-    Using k-fold cross validation, find the number of decision stumps that produce the lowest error rate
-    """
+    """Using k-fold cross validation, find k, the number of nearest neighbors, that produces the lowest error rate"""
 
     k_fold = KFold(n_splits=folds, shuffle=True)
 
@@ -51,7 +47,6 @@ def tune_k_neighbours(data: list, folds: int = 3, start: int = 3, stop: int = 10
             validate = numpy.take(data, validate_index, axis=0)
             classifier = KNeighborsClassifier(n_neighbors=k)
             classifier.fit(train[:, :11], train[:, 11])
-
             prediction = classifier.predict(validate[:, :11])
             error_rate = 1 - accuracy_score(validate[:, 11], prediction)
             errors.append(error_rate)

@@ -1,39 +1,32 @@
-from classifiers import adaboost, kNN
+from pathlib import Path
 import numpy
 from sklearn.model_selection import KFold
 from sklearn.ensemble import AdaBoostClassifier
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score
+from classifiers import Classification
 
-TRAINING_DATA_FILE_PATH = "data/Training.csv"
-TESTING_DATA_FILE_PATH = "data/Testing.csv"
+TRAINING_DATA_FILE_PATH = Path("data/Training.csv")
+TESTING_DATA_FILE_PATH = Path("data/Testing.csv")
+LABEL_INDEX = 11
 
-training_data = numpy.loadtxt("data/Training.csv", delimiter=",", skiprows=1)
-training_data_without_labels = training_data[:, :11]
-training_labels = training_data[:, 11]
+training_data = numpy.loadtxt(TRAINING_DATA_FILE_PATH, delimiter=",", skiprows=1)
+training_data_without_labels = training_data[:, :LABEL_INDEX]
+training_labels = training_data[:, LABEL_INDEX]
 
-testing_data = numpy.loadtxt("data/Testing.csv", delimiter=",", skiprows=1)
-testing_data_without_labels = testing_data[:, :11]
-testing_labels = testing_data[:, 11]
-
-kf3 = KFold(n_splits=3, shuffle=True)
+testing_data = numpy.loadtxt(TESTING_DATA_FILE_PATH, delimiter=",", skiprows=1)
+testing_data_without_labels = testing_data[:, :LABEL_INDEX]
+testing_labels = testing_data[:, LABEL_INDEX]
 
 
 def main():
-    adaboost(
+    classification = Classification(
         training_data=training_data,
-        training_labels=training_labels,
         testing_data=testing_data,
+        training_labels=training_labels,
         testing_labels=testing_labels,
     )
-
-    kNN(
-        k_values=[3, 5, 8, 9, 10, 11, 12, 13, 14],
-        training_data=training_data,
-        training_labels=training_labels,
-        testing_data=testing_data,
-        testing_labels=testing_labels,
-    )
+    classification.compare_classifiers()
 
 
 if __name__ == "__main__":
