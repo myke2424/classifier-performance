@@ -1,9 +1,5 @@
 from pathlib import Path
 import numpy
-from sklearn.model_selection import KFold
-from sklearn.ensemble import AdaBoostClassifier
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.metrics import accuracy_score
 from classifiers import Classification
 
 TRAINING_DATA_FILE_PATH = Path("data/Training.csv")
