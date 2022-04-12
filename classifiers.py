@@ -5,6 +5,7 @@ from sklearn.metrics import (
     accuracy_score,
     plot_confusion_matrix,
 )
+from sklearn.tree import DecisionTreeClassifier
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import cross_val_score
@@ -14,6 +15,7 @@ import numpy
 from utils import time_it
 from results import plot_confusion_matrix, plot_roc_curve
 from sklearn.model_selection import GridSearchCV
+from sklearn import svm
 
 
 class Classification:
@@ -24,9 +26,10 @@ class Classification:
         self.testing_labels = testing_labels
 
     def compare_classifiers(self):
-        """Compare results of the three classifiers; adaboost, kNN,"""
-        self.adaboost()
-        self.kNN()
+        """Compare results of the three classifiers; adaboost, kNN and SVM"""
+        # self.adaboost()
+        # self.kNN()
+        self.svm_()
 
     def adaboost(self):
         """Adaboost classifier using cross-validation to determine the number of decision stumps"""
@@ -41,6 +44,16 @@ class Classification:
         param_grid = {"n_neighbors": np.arange(1, 50)}
         k_value = self._hypertune_param(KNeighborsClassifier, param_grid).get("n_neighbors")
         classifier = KNeighborsClassifier(n_neighbors=k_value)
+        self._classify(classifier)
+
+    def svm_(self):
+        """SVM classifier, using cross-validation to determine kernel type, kernel coefficient"""
+        param_grid = [
+            {"kernel": ["rbf"], "gamma": [1e-3, 1e-4], "C": [1, 10, 100, 1000]},
+            {"kernel": ["linear"], "C": [1, 10, 100, 1000]},
+        ]
+        params = self._hypertune_param(svm.SVC, param_grid)
+        classifier = svm.SVC(**params)
         self._classify(classifier)
 
     def _classify(self, classifier):
@@ -66,4 +79,3 @@ class Classification:
         print(f"{classifier} Error Rate: = {self._error_rate(prediction)}")
         plot_confusion_matrix(classifier, self.testing_labels, prediction)
         plot_roc_curve(classifier, self.testing_labels, prediction)
-
