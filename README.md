@@ -7,6 +7,3 @@ This project compares the results of different classifiers, using metrics, such 
 - AdaBoost
 - Support Vector Machine
 
-Data set: https://archive.ics.uci.edu/ml/datasets/Electrical+Grid+Stability+Simulated+Data
-
-## Results

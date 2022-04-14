@@ -1,5 +1,5 @@
-from sklearn.metrics import confusion_matrix, RocCurveDisplay, roc_curve, auc, ConfusionMatrixDisplay
 import matplotlib.pyplot as plt
+from sklearn.metrics import ConfusionMatrixDisplay, RocCurveDisplay, auc, confusion_matrix, roc_curve
 
 
 def plot_confusion_matrix(classifier, testing_labels, prediction):

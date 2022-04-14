@@ -1,21 +1,11 @@
 import numpy as np
-from sklearn.ensemble import AdaBoostClassifier
-from sklearn.metrics import (
-    plot_roc_curve,
-    accuracy_score,
-    plot_confusion_matrix,
-)
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.model_selection import train_test_split
-from sklearn.model_selection import cross_val_score
-from cross_validation import tune_number_of_decision_stumps
-import time
-import numpy
-from utils import time_it
-from results import plot_confusion_matrix, plot_roc_curve
-from sklearn.model_selection import GridSearchCV
 from sklearn import svm
+from sklearn.ensemble import AdaBoostClassifier
+from sklearn.metrics import accuracy_score, plot_confusion_matrix, plot_roc_curve
+from sklearn.model_selection import GridSearchCV
+from sklearn.neighbors import KNeighborsClassifier
+
+from results import plot_confusion_matrix, plot_roc_curve
 
 
 class Classification:
@@ -27,8 +17,8 @@ class Classification:
 
     def compare_classifiers(self):
         """Compare results of the three classifiers; adaboost, kNN and SVM"""
-        # self.adaboost()
-        # self.kNN()
+        self.adaboost()
+        self.kNN()
         self.svm_()
 
     def adaboost(self):
@@ -47,7 +37,7 @@ class Classification:
         self._classify(classifier)
 
     def svm_(self):
-        """SVM classifier, using cross-validation to determine kernel type, kernel coefficient"""
+        """SVM classifier, using cross-validation to determine kernel type and kernel coefficient"""
         param_grid = [
             {"kernel": ["rbf"], "gamma": [1e-3, 1e-4], "C": [1, 10, 100, 1000]},
             {"kernel": ["linear"], "C": [1, 10, 100, 1000]},
@@ -68,6 +58,7 @@ class Classification:
         """
         cv_classifier = GridSearchCV(classifier(), param_grid, cv=folds)
         cv_classifier.fit(self.training_data, self.training_labels)
+        print(f"Grid search results: {cv_classifier.best_params_}")
         return cv_classifier.best_params_
 
     def _error_rate(self, prediction):
