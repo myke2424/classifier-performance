@@ -19,8 +19,8 @@ testing_labels = testing_data[:, LABEL_INDEX]
 
 def main():
     classification = Classification(
-        training_data=training_data,
-        testing_data=testing_data,
+        training_data=training_data_without_labels,
+        testing_data=testing_data_without_labels,
         training_labels=training_labels,
         testing_labels=testing_labels,
     )
