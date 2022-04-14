@@ -4,8 +4,8 @@ import numpy
 
 from classifiers import Classification
 
-TRAINING_DATA_FILE_PATH = Path("data/Training.csv")
-TESTING_DATA_FILE_PATH = Path("data/Testing.csv")
+TRAINING_DATA_FILE_PATH = Path("../data/Training.csv")
+TESTING_DATA_FILE_PATH = Path("../data/Testing.csv")
 LABEL_INDEX = 11
 
 training_data = numpy.loadtxt(TRAINING_DATA_FILE_PATH, delimiter=",", skiprows=1)
